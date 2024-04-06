@@ -41,30 +41,31 @@ const Navbar = () => {
               <li>
                 <NavLink to="/register">Register</NavLink>
               </li>
-              <li>
+              {
+                regUser && <li>
                 <NavLink to="/about">About</NavLink>
               </li>
+              }
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">daisyUI</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li>
-              <NavLink to="/">Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login">Login</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register">Register</NavLink>
-            </li>
-            <li>
-              <NavLink to="/about">About</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register">Register</NavLink>
-            </li>
+          <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/login">Login</NavLink>
+              </li>
+              <li>
+                <NavLink to="/register">Register</NavLink>
+              </li>
+              {
+                regUser && <li>
+                <NavLink to="/about">About</NavLink>
+              </li>
+              }
           </ul>
         </div>
         <div className="navbar-end">
