@@ -3,7 +3,7 @@ import { AuthContext } from "./AuthProvider";
 
 const Login = () => {
   
-    const {loginUser} = useContext(AuthContext);
+    const {loginUser,regUser, setRegUser,facebookLogin,  googleLogin} = useContext(AuthContext);
 
 
     const handleLogin = (e) => {
@@ -13,6 +13,17 @@ const Login = () => {
         console.log(email, password);
         loginUser(email, password);
     };
+
+    const handleGoogleLogin = ()=>{
+        googleLogin()
+        .then(res=>setRegUser(res.user))
+        .catch(er=> console.log(err))
+    }
+    const handleFacebookLogin = ()=>{
+        facebookLogin()
+        .then(res=>setRegUser(res.user))
+        .catch(er=> console.log(err))
+    }
     return (
         <div>
         <div className="hero min-h-screen bg-base-200">
@@ -62,6 +73,10 @@ const Login = () => {
                     </button>
                 </div>
                 </form>
+                <div>
+                <button onClick={handleGoogleLogin} className="btn btn-sm btn-outline w-fit mx-auto mb-4 rounded-full">google</button>
+                <button onClick={facebookLogin} className="btn btn-sm btn-outline w-fit mx-auto mb-4 rounded-full">facebook</button>
+                </div>
             </div>
             </div>
         </div>

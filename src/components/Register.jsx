@@ -1,9 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from './AuthProvider';
 
 const Register = () => {
+  useEffect(()=>{
+    const time = setInterval(() => {
+      console.log("observer");
+    }, 1000);
 
-    const {registerUser} = useContext(AuthContext);
+    return()=>{
+      clearInterval(time);
+    }
+  }, [])
+
+    const {registerUser, setRegUser} = useContext(AuthContext);
+    const [error, setError] = useState('');
 
     const handleRegister = e =>{
         e.preventDefault();
@@ -11,8 +21,31 @@ const Register = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const confirmPassword = e.target.confirmPassword.value;
-        registerUser(email, password);
-        console.log(name, email, password, confirmPassword);
+
+        if(password.length<6){
+            setError("Insert at least 6 charecters");
+            return;
+        }
+        if(password!=confirmPassword){
+            setError("Passwords didn't match");
+            return;
+        }
+        // if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<.test>,.?/~\-]).*$/.test(password)){
+        //     setError("Password should contain an uppercase, a lowercase , a digit and a special charecter");
+        //     return;
+        // }
+        if(!/@gmail\.com$/.test(email)){
+            setError("Not a valid email");
+            return;
+        }
+        setError("")
+        registerUser(email, password)
+        .then(res=>{
+            setRegUser(res.user);
+        })
+        .catch(err=>setError(err.message))
+
+        // console.log(name, email, password, confirmPassword);
     }
   return (
     <div>
@@ -74,6 +107,11 @@ const Register = () => {
               </div>
               <div className="form-control mt-6">
                 <button type="submit" className="btn btn-success">Register</button>
+              </div>
+              <div>
+                {
+                    error && <span className="text-red-600">{error}</span>
+                }
               </div>
             </form>
           </div>
